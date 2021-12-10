@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Link from 'next/Link'
+// import Link from 'next/Link'
 import { useState } from 'react'
 import { useRouter } from "next/router"; //importing for getting search queries
 
