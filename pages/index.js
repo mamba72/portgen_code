@@ -1,51 +1,67 @@
 import Head from 'next/head'
+import Link from 'next/Link'
+import { useState } from 'react'
+
+
+import { supabase } from '../utils/supabaseClient'
+import { Auth } from '@supabase/ui'
+import Input from '../components/Input' 
 
 export default function Home() {
+
+	const [gitName, setGitName] = useState("");
+
+	
+	const EnteredUserName = (entry) => {
+		setGitName(entry);
+		console.log("Received Github Username: " + gitName);
+	}
+
+	const ViewProfile = () => {
+		let pathName = '/port_viewer';
+		let searchQuery = 'gitName=' + gitName;
+		history.push({pathname: pathName, search: searchQuery});
+	}
+
+  
+
+
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>PortGen</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <header>
+        
+      </header>
+
       <main>
         <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to <a href="https://nextjs.org">PortGen</a>
         </h1>
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
+        <h2>Either Input a Github Username below, or log into your account</h2>
+        <Input handleSubmit={EnteredUserName}></Input>
 
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+		{/* this will be a section for the button to view the profile of the user */}
+		<div>
+			{ (gitName != "") ? (
+				
+				<div>
+					{/* in here will be a link */}
+					{/* <button onClick={ViewProfile}>Click to View Profile</button> */}
+					<Link href={'/port_viewer?gitName=' + gitName}>Click to View Profile</Link>
+				</div>
+			) :
+			(<div> </div>)
 
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+				
+			}
+		</div>
+        
+        
       </main>
 
       <footer>
@@ -190,7 +206,7 @@ export default function Home() {
         }
       `}</style>
 
-      <style jsx global>{`
+      {/* <style jsx global>{`
         html,
         body {
           padding: 0;
@@ -203,7 +219,7 @@ export default function Home() {
         * {
           box-sizing: border-box;
         }
-      `}</style>
+      `}</style> */}
     </div>
   )
 }
