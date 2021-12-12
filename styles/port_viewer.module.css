@@ -1,0 +1,6 @@
+
+.viewer-header {
+    font-size: xx-large;
+    display: flex;
+    flex-direction: row;
+}
