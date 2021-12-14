@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Link from 'next/link';
 
-export default function ProjectCard({ repo }) {
+export default function ProjectCard({ repo, starred }) {
 
     const repoName = repo.full_name.substring(repo.full_name.indexOf('/') + 1);
     const lang = repo.language;
@@ -9,13 +9,24 @@ export default function ProjectCard({ repo }) {
     const creationDate = repo.created_at;
     const link = repo.html_url;
     const lastUpdateDate = repo.updated_at;
-    const imgDestination = () => {
-        var path = "/images/languages/" + lang + ".png";
+    const imgDestination = (language) => {
+
+        if(language != null)
+            language = language.replace("#","Sharp");
+        var path = "/images/languages/" + language + ".png";
         return path;
+    }
+
+    const starPath = () => {
+        if(starred)
+            return "/images/FilledInStar.png";
+        else
+            return "/images/EmptyStar.png";
     }
 
     return (
         <div className="proj-card">
+            <img src={starPath(repo.id)} className='proj-star' />
             <a href={link} target="_blank" rel="noreferrer noopener"
                 className="proj-title">{repoName}</a>
             <div className="proj-description-box">
@@ -23,7 +34,7 @@ export default function ProjectCard({ repo }) {
             </div>
             
 
-            <img src={imgDestination()} className='proj-attrib1' />
+            <img src={imgDestination(lang)} className='proj-attrib1' alt={lang} />
             
         </div>
     )

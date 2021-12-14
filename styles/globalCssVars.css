@@ -1,0 +1,17 @@
+
+
+
+
+:root {
+    /* Constants for project section */
+    --proj-border-radius: 10px;
+    --proj-padding: 2px;
+    --proj-border-width: 1px;
+    --proj-bg-color-seethrough: rgba(255, 255, 255, 0.5);
+
+    --proj-card-background-gradient: linear-gradient(239.17deg, #C8BDFF -50.13%, #B5EDFF -5.03%, #00CBFF 30.57%, #6721FF 73.85%, #C8BDFF 112.65%);
+    --proj-card-background-gray: rgba(173, 173, 173, 0.3);
+    /* colors */
+    --color-cool-blue: #0070f3;
+
+}

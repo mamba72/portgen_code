@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "globalCssVars.css";
+
 
 html,
 body {
@@ -17,11 +19,13 @@ body {
 
 .container {
     min-height: 100vh;
+    min-width: 99vw;
     padding: 0 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 0;
 }
 
 main {
@@ -136,7 +140,13 @@ code {
 }
 
 
-
+.header-stripe {
+    /* max-height: 1%; */
+    background-image: var(--proj-card-background-gradient);
+    width: 100%;
+    background-color: var(--proj-card-background-gradient);
+    min-height: 1rem;
+}
 
 
 /* PORT VIEWER */
@@ -146,14 +156,28 @@ code {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+    /* background-image: var(--proj-card-background-gradient); */
+    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
 
+.viewer-header button,
+.viewer-header .Button {
+    background-image: var(--proj-card-background-gradient);
+    border-radius: calc(2*var(--proj-border-radius));
+    padding: var(--proj-padding);
+    padding-left: calc(4*var(--proj-padding));
+    padding-right: calc(4*var(--proj-padding));
+    color: white;
 }
 
 .proj-section {
-    width: 90%;
+    width: 95%;
     min-height: 10rem;
     display: flex;
     flex-direction: column;
+    border-radius: var(--proj-border-radius);
 }
 
 
@@ -166,7 +190,11 @@ code {
     max-height: 100%;
     margin-bottom: 10px;
 
-    background-color: darkgray;
+    background-color: white;
+    border-radius: var(--proj-border-radius);
+    border-color: darkgray;
+    border-width: var(--proj-border-width);
+    background-color: var(--proj-card-background-gray);
 
     /* grid stuff */
     display: grid;
@@ -177,14 +205,22 @@ code {
         "image description attrib1 attrib2";
 }
 
+.proj-star {
+    grid-area: image;
+
+}
+
 .proj-title {
     grid-area: title;
-    background-color: chartreuse;
+    background-color: var(--proj-bg-color-seethrough);
     text-align: center;
-    padding: 2px;
+    padding: var(--proj-padding);
     margin: 2px;
     font-weight: bold;
     box-shadow: black;
+
+    border-radius: var(--proj-border-radius);
+    
 }
 
     /* .proj-title a:hover,
@@ -196,38 +232,41 @@ code {
 .proj-description-box {
     grid-area: description;
     background-color: white;
-    padding: 2px;
+    padding: var(--proj-padding);
     margin: 3px;
-    border: darkgray;
+    border-color: darkgray;
+    border-width: var(--proj-border-width);
     box-shadow: inset black;
-    border-radius: 9px;
+    border-radius: var(--proj-border-radius);
     overflow: hidden;
-    /* font-size: 1rem; */
 }
 
 .proj-attrib1 {
     width: 100%;
+    vertical-align: middle;
     height: auto;
     overflow: hidden;
-    border-radius: 20px;
+    border-radius: calc(2*var(--proj-border-radius));
     margin: 2px;
-    padding: 2px;
+    padding: var(--proj-padding);
 
     grid-area: attrib1;
-    background-color:aqua;
+    background-color:var(--proj-bg-color-seethrough);
 }
 
 .proj-attrib2 {
     width: 100%;
+    vertical-align: middle;
     height: auto;
     overflow: hidden;
-    border-radius: 20px;
+    border-radius: calc(2*var(--proj-border-radius));;
     margin: 5px;
-    padding: 2px;
+    padding: var(--proj-padding);
 
     grid-area: attrib2;
-    background-color:aqua;
+    background-color:var(--proj-bg-color-seethrough);
 }
+
 
 
 @media (max-width: 600px) {

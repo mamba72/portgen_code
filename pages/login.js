@@ -1,3 +1,5 @@
+import Head from 'next/head'
+import Link from 'next/link'
 import { useState } from 'react'
 
 import { supabase } from '../utils/supabaseClient'
@@ -16,9 +18,14 @@ export default function Login()
 
 
 	return (
-		<div>
+		<div className='container'>
+      <Head>
+        <title>PortGen Login</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      
 			 {/* if(user != null) display GratitudeApp; else display auth; */}
-			 { user ? ( <div>
+			 { supaUser ? ( <div>
             <p>Hello, you are on the login page</p>
 
             <button className="text-pink-300" onClick={ async () => { 
@@ -31,9 +38,20 @@ export default function Login()
           </div>
         ) : (
           
-            <Auth supabaseClient={supabase} socialLayout="horizontal" socialButtonSize="xlarge" />
+            <Auth supabaseClient={supabase} socialLayout="horizontal" socialButtonSize="xlarge" redirectTo='/'/>
           
         )}
+
+        <footer>
+          <a
+            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Powered by{' '}
+            <img src="/vercel.svg" alt="Vercel" className="logo" />
+          </a>
+      </footer>
 		</div>
 	)
 
