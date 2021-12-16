@@ -15,12 +15,12 @@ export default function my_profile()
 {
 	let supaBio = HelperClass.GetUserBio();
 
-    const [name, setName] = useState("");
-	const [schoolName, setSchoolName] = useState("");
-	const [major, setMajor] = useState("");
-	const [minor, setMinor] = useState("");
+    const [name, setName] = useState("Stephen");
+	const [schoolName, setSchoolName] = useState("Chapman");
+	const [major, setMajor] = useState("Computer Science");
+	const [minor, setMinor] = useState("Business");
 	const [gradYear, setGradYear] = useState(2022);
-	const [gitName, setGitName] = useState(null);
+	const [gitName, setGitName] = useState("mamba72");
 
 	const { supaUser } = Auth.useUser();
 	
@@ -36,6 +36,11 @@ export default function my_profile()
 	}
 
   const SubmitInfo = async () => {
+	if(user["supaUser"].user == null)
+	{
+
+	}
+
 	  console.log("Submit Info was called");
 	  //if they already have a profile, just update their info,
 	  console.log("Val of User Has Profile: ", HelperClass.UserHasProfile());
@@ -45,8 +50,23 @@ export default function my_profile()
 	}//else, create a new row
 	else {
 		console.log("User Supa: ", user["supaUser"]);
-		await HelperClass.CreateUserBio(name, schoolName,major,minor,gradYear,gitName);
+		await CreateUserBio(supabase.auth.currentUser.id,name, schoolName,major,minor,gradYear,gitName);
 	}
+  }
+
+  const CreateUserBio = async (supaID,Name, SchoolName, Major, Minor, GradYear, githubName) => {
+	console.log("Creating User: id -> ", supaID);
+	let year = new Date(GradYear);
+
+	let { data, error } = await supabase
+		.from('BasicInfo')
+		.insert([
+		{ "id": supaID, "Name": {Name}, "SchoolName": {SchoolName}, "Major": {Major}, "Minor": {Minor}, "GradYear": year, "GitName": githubName},
+	]);
+
+	if(error)
+		console.log(error);
+
   }
 
   	const DisableGitChange = () => {
@@ -70,6 +90,9 @@ export default function my_profile()
 	  useEffect(() => { 
         console.log("User: ", user);
 		console.log("Supa User: ", supaUser);
+
+		console.log("Supabase thing: ", supabase);
+		console.log("Supabase auth currentUser id thing: ", supabase.auth.currentUser.id);
 		
 		if(typeof user["supaUser"] == 'undefined')
 		{

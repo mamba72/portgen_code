@@ -11,7 +11,6 @@ import { useState } from 'react'
 function MyApp({ Component, pageProps }) {
 
 	const [user, setUser] = useState({
-		name:"Stephen",
 		supaUser: Auth.useUser()
 	})
 

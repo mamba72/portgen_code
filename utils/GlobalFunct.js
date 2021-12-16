@@ -4,7 +4,6 @@ import { Component } from 'react';
 import { UserContext, useUser } from '../context/UserContext';
 
 export class HelperClass extends Component {
-    static supaID = -1;
     // constructor(doc) {
     //     this.document = doc;
     // }
@@ -17,14 +16,14 @@ export class HelperClass extends Component {
 
 
     //SUPABASE STUFF
-    static async CreateUserBio({Name, SchoolName, Major, Minor, GradYear, githubName}){
-        console.log("Creating User");
+    static async CreateUserBio({supaID,Name, SchoolName, Major, Minor, GradYear, githubName}){
+        console.log("Creating User: id -> ", supaID);
         let year = new Date(GradYear);
     
         let { data, error } = await supabase
             .from('BasicInfo')
             .insert([
-            { id: this.supaID, Name: {Name}, SchoolName: {SchoolName}, Major: {Major}, Minor: {Minor},GradYear: year, GitName: githubName},
+            { "id": supaID, "Name": {Name}, "SchoolName": {SchoolName}, "Major": {Major}, "Minor": {Minor}, "GradYear": year, "GitName": githubName},
         ]);
 
         if(error)
