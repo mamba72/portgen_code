@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { supabase } from '../utils/supabaseClient'
 import { Auth } from '@supabase/ui'
 import { useUser } from '../context/UserContext'
+import MyHeader from '../components/MyHeader'
+import { HelperClass } from '../utils/GlobalFunct'
 
 export default function Login()
 {
@@ -14,8 +16,7 @@ export default function Login()
 	
 	const { user, setUser } = useUser();
 
-
-
+  
 
 	return (
 		<div className='container'>
@@ -23,24 +24,30 @@ export default function Login()
         <title>PortGen Login</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
-			 {/* if(user != null) display GratitudeApp; else display auth; */}
-			 { supaUser ? ( <div>
-            <p>Hello, you are on the login page</p>
 
-            <button className="text-pink-300" onClick={ async () => { 
-              let { error } = await supabase.auth.signOut()
-              if(error) { console.log(error)}
-              }
-            }>
-              Logout
-            </button>
-          </div>
-        ) : (
-          
+      <MyHeader/>
+
+      <main>
+      
+        {/* if(user != null) display GratitudeApp; else display auth; */}
+        { HelperClass.IsLoggedIn() ? ( <div>
+              <p>Hello, you are on the login page</p>
+
+              <button className="text-pink-300" onClick={ async () => { 
+                let { error } = await supabase.auth.signOut()
+                if(error) { console.log(error)}
+                }
+              }>
+                Logout
+              </button>
+            </div>
+          ) : (
+            // where the actual login stuff is
             <Auth supabaseClient={supabase} socialLayout="horizontal" socialButtonSize="xlarge" redirectTo='/'/>
-          
-        )}
+            
+          )}
+
+        </main>
 
         <footer>
           <a

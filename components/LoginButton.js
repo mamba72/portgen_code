@@ -1,36 +1,30 @@
 import { useState } from 'react'
 import { Auth } from '@supabase/ui'
 import Link from 'next/link';
+import { HelperClass } from '../utils/GlobalFunct';
 
-export default function LoginButton() {
+export default function LoginButton({LogOutFunction}) {
     const supaUser = Auth.useUser();
 
-    const IsLoggedIn = () => {
-        console.log(supaUser);
-        return supaUser;
-      }
 
-    const Text = () => {
-        if(IsLoggedIn())
-            return "Log Out";
-        else
-            return "Log In";
-    }
 
-    const GetLink = () => {
-        if(IsLoggedIn())
+    const GetButton = () => {
+        if(!HelperClass.IsLoggedIn())
         {
-
-        }
-        else 
+            return (
+            <Link href='/login' passHref>
+                <button component='a'>Log In</button>
+            </Link>);
+        }else
         {
-            
+            return (
+                <button onClick={LogOutFunction}>Log Out</button>
+            );
         }
     }
 
     return (
-        <Link href={GetLink()} passHref>
-            <button component='a'>{Text()}</button>
-        </Link>
+        
+        GetButton()
     )
 }

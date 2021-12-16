@@ -8,6 +8,9 @@ import { supabase } from '../utils/supabaseClient'
 import { Auth, Button } from '@supabase/ui'
 import ProjectCard from '../components/ProjectCard'
 import React, { useEffect } from 'react';
+import MyHeader from '../components/MyHeader';
+import {HelperClass} from '../utils/GlobalFunct';
+import { useUser } from '../context/UserContext';
 
 export default function port_viewer() {
     const router = useRouter();//used to get the search query
@@ -16,6 +19,8 @@ export default function port_viewer() {
 	let [foundUser, setFoundUser] = useState(false);
     let [loading, setLoading] = useState(true);
 	let [starred, setStarred] = useState([]);
+
+    const {user, setUser} = useUser();
 	
 
     const GetGitNameFromQuery = async () =>
@@ -59,6 +64,12 @@ export default function port_viewer() {
 
 	}
 
+    const GetCssRoot = () => { return document.querySelector(':root');}
+
+    const ChangeTitleColor = (newColor) => {
+        HelperClass.ChangeTitleColor(GetCssRoot(), newColor);
+    }
+
 
 	const GetStarredRepos = async (userName) => {
 		let fetchReponse = await fetch(`https://api.github.com/users/${userName}/starred`);
@@ -85,6 +96,8 @@ export default function port_viewer() {
       }
 
       const TitleToDisplay = () => {
+        // ChangeTitleColor('white');
+
           if(loading) //loading
           {
               return (<h1 className='title'>Searching For {GitName}'s Profile</h1>);
@@ -105,6 +118,7 @@ export default function port_viewer() {
 
 	  useEffect(() => { 
 		  GetGitNameFromQuery();
+          console.log("User: ", user);
 	  }, []);
 
 
@@ -118,23 +132,15 @@ export default function port_viewer() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <hr className='header-stripe'/>
-            <header className="viewer-header">
-                
-				{/* <h3>Home</h3>
-				<h3>Log Out</h3> */}
-                <Link href='/' passHref>
-                    <button compontent='a'>Home</button>
-                </Link>
-                
-                <button>Log Out</button>
-            </header>
+            <MyHeader/>
 
             <main>
 
 				{TitleToDisplay()}
                 
-
+                {(GitRepos.length != 0) && (
+                    <h4>Total Number of Public Repositories: {GitRepos.length}</h4>
+                )}
                 
                 {(GitRepos.length != 0) ? (
                     <section className="proj-section">

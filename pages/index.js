@@ -7,11 +7,17 @@ import { supabase } from '../utils/supabaseClient'
 import { Auth } from '@supabase/ui'
 import Input from '../components/Input' 
 import { useRouter } from "next/router";
+import MyHeader from '../components/MyHeader'
+import { HelperClass } from '../utils/GlobalFunct'
+import { useUser } from '../context/UserContext'
+import React, { useEffect } from 'react';
 
 export default function Home() {
 	const router = useRouter();
 	const [gitName, setGitName] = useState("");
   const supaUser = Auth.useUser();
+
+  const {user, setUser} = useUser();
 
 	
 	const EnteredUserName = (entry) => {
@@ -27,12 +33,19 @@ export default function Home() {
 	}
 
   // supabase stuff
-
-  const IsLoggedIn = () => {
-    console.log(supaUser);
-    return supaUser;
-  }
   
+
+
+  useEffect(() => { 
+        console.log("User: ", user);
+        
+        setUser({
+          name: user["name"],
+          supaUser: {supaUser}
+        })
+
+        console.log("User: ", user);
+  }, []);
 
 
   return (
@@ -42,20 +55,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <hr className='header-stripe'/>
-      <header>
-        
-      </header>
+      <MyHeader/>
 
       <main>
-
-        { IsLoggedIn() ? (<p>user is logged in</p>) : (<p>User is not logged in</p>)}
-
         <h1 className="title">
           Welcome to <a>PortGen</a>
         </h1>
-
+        <br/>
         <h2>Either Input a Github Username below, or log into your account</h2>
+        <br/>
         <Input handleSubmit={EnteredUserName} buttonText="Find User"></Input>
 
 		{/* this will be a section for the button to view the profile of the user */}

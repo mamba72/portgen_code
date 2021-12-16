@@ -1,31 +1,39 @@
 import { useState } from 'react'
-export default function Input({ handleSubmit, buttonText }) {
+export default function Input({ handleSubmit, placeholder, type, buttonText, valueIn, disabledSubmit }) {
 
-    const [value,setValue] = useState("")
+    const [value,setValue] = useState(valueIn);
+
+    const inputWidth = () => {
+        if(disabledSubmit)
+            return "100%";
+        else 
+            return "75%";
+    }
 
     //create an onsubmit function
     let submitForm = e => {
+        if(disabledSubmit)
+            return;
         e.preventDefault()
         handleSubmit(value)
         setValue("")
     }
 
-    const GetButtonText = () => {
-        if(buttonText != null)
-            return buttonText;
-        else
-            return "Save";
-    }
-
     return (
         <form onSubmit={submitForm}>
-            <input placeholder="Enter User Name" type="text" value={value} 
+            <input placeholder={placeholder} type={type} value={value} 
                 //e.target.value is the value given to the onChange event and it is the text the user changed in the textbox
                 onChange={e => setValue(e.target.value)}
                 className="border-black rounded px-3 py-2 bg-gray-100 drop-shadow">
 
-                </input>
-            <button type="submit" className="input-button">{GetButtonText()}</button>
+            </input>
+
+            {!disabledSubmit ? (
+                <button type="submit" className="input-button">{buttonText}</button>
+            ): (
+                <div></div>
+            )}
+            
 
             <style jsx> {`
                 .input-button {
@@ -35,6 +43,13 @@ export default function Input({ handleSubmit, buttonText }) {
                     --tw-drop-shadow: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06));
                     min-width: 70px;
                     color: white;
+                    // width: 25%
+                }
+                // form {
+                //     width: 100%;
+                // }
+                input {
+                    width: ${inputWidth};
                 }
 
                 `}</style>
@@ -43,4 +58,11 @@ export default function Input({ handleSubmit, buttonText }) {
         
         
     )
+}
+
+Input.defaultProps = {
+    placeholder: "Enter User Name",
+    type: "text",
+    buttonText: "Save",
+    disabledSubmit: false
 }

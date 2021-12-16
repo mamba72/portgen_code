@@ -8,7 +8,7 @@ export default function ProjectCard({ repo, starred }) {
     const description = repo.description;
     const creationDate = repo.created_at;
     const link = repo.html_url;
-    const lastUpdateDate = repo.updated_at;
+    const lastUpdateDate = new Date(repo.updated_at);
     const imgDestination = (language) => {
 
         if(language != null)
@@ -24,6 +24,11 @@ export default function ProjectCard({ repo, starred }) {
             return "/images/EmptyStar.png";
     }
 
+    const PrintDate = () => {
+        return lastUpdateDate.toDateString();
+        
+    }
+
     return (
         <div className="proj-card">
             <img src={starPath(repo.id)} className='proj-star' />
@@ -35,6 +40,7 @@ export default function ProjectCard({ repo, starred }) {
             
 
             <img src={imgDestination(lang)} className='proj-attrib1' alt={lang} />
+            <p className='proj-date'>Last Update: {PrintDate()}</p>
             
         </div>
     )
