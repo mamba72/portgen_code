@@ -21,7 +21,7 @@ export default function MyHeader() {
         {
             return (
                 <Link href='/my_profile' passHref>
-                    <button component='a'>My Profile</button>
+                    <button component='a' className='header-button'>My Profile</button>
                 </Link>
             );
         }else
@@ -48,7 +48,14 @@ export default function MyHeader() {
                     <button compontent='a' className='header-button'>Home</button>
                 </Link>
 
-                {GetProfileOrLoginButton()}
+                <div>
+                    <Link href='/about' passHref>
+                        <button compontent='a' className='header-button'>About</button>
+                    </Link>
+
+                    {GetProfileOrLoginButton()}
+                </div>
+                
                 
                 {/* {LoginButton(LogOutFunction)} */}
             </header>

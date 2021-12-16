@@ -11,6 +11,7 @@ import MyHeader from '../components/MyHeader'
 import { HelperClass } from '../utils/GlobalFunct'
 import { useUser } from '../context/UserContext'
 import React, { useEffect } from 'react';
+import MyFooter from '../components/MyFooter'
 
 export default function Home() {
 	const router = useRouter();
@@ -85,16 +86,7 @@ export default function Home() {
         
       </main>
 
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className="logo" />
-        </a>
-      </footer>
+      <MyFooter/>
 
       
     </div>

@@ -11,6 +11,7 @@ import React, { useEffect } from 'react';
 import MyHeader from '../components/MyHeader';
 import {HelperClass} from '../utils/GlobalFunct';
 import { useUser } from '../context/UserContext';
+import MyFooter from '../components/MyFooter';
 
 export default function port_viewer() {
     const router = useRouter();//used to get the search query
@@ -160,16 +161,7 @@ export default function port_viewer() {
             
             
 
-            <footer>
-                <a
-                    href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Powered by{' '}
-                    <img src="/vercel.svg" alt="Vercel" className="logo" />
-                </a>
-            </footer>
+            <MyFooter/>
             
             
         </div>
