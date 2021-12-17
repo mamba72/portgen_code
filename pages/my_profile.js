@@ -51,6 +51,10 @@ export default function my_profile()
 	if(await HelperClass.UserHasProfile())
 	{
 		console.log("User already has profile, updating");
+
+		await HelperClass.UpdateUserProfile(supabase.auth.currentUser.id, name, schoolName,major,minor,gradYear,gitName);
+
+
 	}//else, create a new row
 	else {
 		console.log("User Supa: ", user["supaUser"]);

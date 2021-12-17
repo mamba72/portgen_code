@@ -46,6 +46,21 @@ export class HelperClass extends Component {
 
     }
 
+    static async UpdateUserProfile(supaID, Name, SchoolName, Major, Minor, GradYear, githubName)
+    {
+        
+        let { data, error } = await supabase
+            .from('BasicInfo')
+            .update({ Name: Name })
+            // .eq('id', supaID);
+
+        if(error)
+            console.log(error);
+
+        console.log("Data from Update: ", data);
+       
+    }
+
     static async GetUserBio(supaID)
     {
         let { data: BasicInfo, error } = await supabase
@@ -63,7 +78,7 @@ export class HelperClass extends Component {
         
         try{
             console.log("BasicInfo: ", BasicInfo[0]);
-            BasicInfo[0].GradYear = new Date(BasicInfo[0].GradYear);
+            BasicInfo[0].GradYear = BasicInfo[0].GradYear.substring(0,4);
             return BasicInfo[0];
         }
         catch

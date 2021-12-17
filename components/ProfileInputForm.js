@@ -9,6 +9,7 @@ export default function ProfileInputForm({handleSubmit, curVals}) {
 	const [gitName, setGitName] = useState(curVals.GitName);
 
 
+
     let submitForm = e => {
         e.preventDefault();
         handleSubmit({name, schoolName, major, minor, gradYear, gitName});
@@ -26,17 +27,41 @@ export default function ProfileInputForm({handleSubmit, curVals}) {
 
     return (
         <form onSubmit={submitForm}>
-            {PrintInput("Name", "text",curVals.Name,setName)}
+            {/* {PrintInput("Name", "text",curVals.Name,setName)} */}
+            <input placeholder="Name" type="text" value={name}
+                onChange={e => setName}
+                className="border-black rounded px-3 py-2 bg-gray-100 drop-shadow">
+            </input>
             <br></br>
-            {PrintInput("School Name", "text",curVals.SchoolName,setSchoolName)}
+            {/* {PrintInput("School Name", "text",curVals.SchoolName,setSchoolName)} */}
+            <input placeholder="School Name" type="text" value={curVals.SchoolName}
+                onChange={e => setSchoolName(e.target.value)}
+                className="border-black rounded px-3 py-2 bg-gray-100 drop-shadow">
+            </input>
             <br></br>
-            {PrintInput("Major", "text",curVals.Major,setMajor)}
+            {/* {PrintInput("Major", "text",curVals.Major,setMajor)} */}
+            <input placeholder="Major" type="text" value={curVals.Major}
+                onChange={e => setMajor(e.target.value)}
+                className="border-black rounded px-3 py-2 bg-gray-100 drop-shadow">
+            </input>
             <br></br>
-            {PrintInput("Minor", "text",curVals.Minor,setMinor)}
+            {/* {PrintInput("Minor", "text",curVals.Minor,setMinor)} */}
+            <input placeholder="Minor" type="text" value={curVals.Minor}
+                onChange={e => setMinor(e.target.value)}
+                className="border-black rounded px-3 py-2 bg-gray-100 drop-shadow">
+            </input>
             <br></br>
-            {PrintInput("Graduation Year", "number",curVals.GradYear,setGradYear)}
+            {/* {PrintInput("Graduation Year", "number",curVals.GradYear,setGradYear)} */}
+            <input placeholder="Graduation Year" type="number" value={curVals.GradYear}
+                onChange={e => setGradYear(e.target.value)}
+                className="border-black rounded px-3 py-2 bg-gray-100 drop-shadow">
+            </input>
             <br></br>
-            {PrintInput("GitHub User Name", "text",curVals.GitName,setGitName)}
+            {/* {PrintInput("GitHub User Name", "text",curVals.GitName,setGitName)} */}
+            <input placeholder="GitHub User Name" type="text" value={curVals.GitName}
+                onChange={e => setGitName(e.target.value)}
+                className="border-black rounded px-3 py-2 bg-gray-100 drop-shadow">
+            </input>
 
             <button className='submit-info-button' type="submit">Done</button>
         </form>
