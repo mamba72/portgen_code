@@ -313,9 +313,11 @@ code {
 
 
 /* PROFILE VIEWER */
-/* .profile-viewer {
-    width: 80%;
-} */
+.profile-viewer {
+    /* width: 80%; */
+    display: flex;
+    flex-direction: column;
+}
 
 .profile-viewer Input {
     /* margin-left: auto;
@@ -323,6 +325,7 @@ code {
     align-content: center; */
 
     margin-top: 1rem;
+    width: 100%;
 }
 
 .profile-viewer .submit-info-button {
@@ -381,6 +384,28 @@ code {
     margin-left: 35px;
 }
 
+
+/* USER BIO SECTION */
+
+.user-bio-section {
+    display: flex;
+    flex-direction: row;
+}
+.user-bio-section .left-section {
+    display: flex;
+    margin-right: 5px;
+}
+.user-bio-section .right-section {
+    display: flex;
+    flex-direction: column;
+    font-size: larger;
+    margin-left: 5px;
+}
+
+.user-bio-section img {
+    width: 10rem;
+    border-radius: 20px;
+}
 
 
 @media (max-width: 600px) {

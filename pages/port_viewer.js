@@ -12,6 +12,7 @@ import MyHeader from '../components/MyHeader';
 import {HelperClass} from '../utils/GlobalFunct';
 import { useUser } from '../context/UserContext';
 import MyFooter from '../components/MyFooter';
+import UserBioSection from '../components/UserBioSection';
 
 export default function port_viewer() {
     const router = useRouter();//used to get the search query
@@ -38,7 +39,7 @@ export default function port_viewer() {
         setGitName(query.get('gitName'));
         console.log("GitName: ", userName);
 		await GetGitHubRepos(userName);
-        
+        return userName;
     }
 
     const GetGitHubRepos = async (userName) => {
@@ -65,11 +66,7 @@ export default function port_viewer() {
 
 	}
 
-    const GetCssRoot = () => { return document.querySelector(':root');}
-
-    const ChangeTitleColor = (newColor) => {
-        HelperClass.ChangeTitleColor(GetCssRoot(), newColor);
-    }
+    // const GetCssRoot = () => { return document.querySelector(':root');}
 
 
 	const GetStarredRepos = async (userName) => {
@@ -123,8 +120,6 @@ export default function port_viewer() {
 	  }, []);
 
 
-
-
     return (
         <div className="container">
 
@@ -138,6 +133,8 @@ export default function port_viewer() {
             <main>
 
 				{TitleToDisplay()}
+
+				<UserBioSection GitName={GitName} repos={GitRepos}/>
                 
                 {(GitRepos.length != 0) && (
                     <h4>Total Number of Public Repositories: {GitRepos.length}</h4>

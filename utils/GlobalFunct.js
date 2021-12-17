@@ -16,14 +16,14 @@ export class HelperClass extends Component {
 
 
     //SUPABASE STUFF
-    static async CreateUserBio({supaID,Name, SchoolName, Major, Minor, GradYear, githubName}){
+    static async CreateUserBio(supaID,Name, SchoolName, Major, Minor, GradYear, githubName){
         console.log("Creating User: id -> ", supaID);
         let year = new Date(GradYear);
     
         let { data, error } = await supabase
             .from('BasicInfo')
             .insert([
-            { "id": supaID, "Name": {Name}, "SchoolName": {SchoolName}, "Major": {Major}, "Minor": {Minor}, "GradYear": year, "GitName": githubName},
+            { id: supaID, Name: Name, SchoolName: SchoolName, Major: Major, Minor: Minor, GradYear: year, GitName: githubName},
         ]);
 
         if(error)
@@ -46,19 +46,61 @@ export class HelperClass extends Component {
 
     }
 
-    static async GetUserBio()
+    static async GetUserBio(supaID)
     {
         let { data: BasicInfo, error } = await supabase
             .from('BasicInfo')
             .select('*')
+            .eq("id", supaID);
 
         if(error)
             console.log(error);
-        
-        console.log(BasicInfo);
-        return BasicInfo;
 
+        if(BasicInfo.length == 0)
+        {
+            return null;
+        }
+        
+        try{
+            console.log("BasicInfo: ", BasicInfo[0]);
+            BasicInfo[0].GradYear = new Date(BasicInfo[0].GradYear);
+            return BasicInfo[0];
+        }
+        catch
+        {
+            console.log("Basic Info was NULL");
+            return null;
+        }
     }
+
+    static async GetGitUserBio(userName) {
+        console.log("Getting info for user: ", userName);
+        let { data: BasicInfo, error } = await supabase
+            .from('BasicInfo')
+            .select('*')
+            .like("GitName", userName);
+
+        if(error)
+            console.log(error);
+
+        if(BasicInfo.length == 0)
+        {
+            return null;
+        }
+        
+        try{
+            console.log("BasicInfo: ", BasicInfo[0]);
+            
+            BasicInfo[0].GradYear = BasicInfo[0].GradYear.substring(0,4);
+            return BasicInfo[0];
+        }
+        catch
+        {
+            console.log("Basic Info was NULL");
+            return null;
+        }
+    }
+
 
     static async SetSupaGitName({gitName}) {
     
@@ -78,7 +120,7 @@ export class HelperClass extends Component {
         let supaUser = Auth.useUser();
         this.supaID = supaUser.id;
         // useUser().setUser(supaUser);
-        console.log(supaUser);
+        // console.log(supaUser);
         if(typeof supaUser != 'undefined' && supaUser.user != null)
           return true;
         else
@@ -87,6 +129,16 @@ export class HelperClass extends Component {
 
       static GetSupaUser = () => {
           return Auth.useUser();
+      }
+
+
+      static async GetGitAvatarUrl(userName) {
+        let fetchReponse = await fetch(`https://api.github.com/users/${userName}/repos`);
+        let jsonResponse = await fetchReponse.json();
+        if(jsonResponse.length > 0)
+            return jsonResponse[0].owner.avatar_url;
+        else
+            return "";
       }
 }
 

@@ -10,36 +10,40 @@ import { HelperClass } from '../utils/GlobalFunct'
 import { useRouter } from "next/router";
 import Input from '../components/Input'
 import React, { useEffect } from 'react';
+import ProfileInputForm from '../components/ProfileInputForm'
 
 export default function my_profile()
 {
-	let supaBio = HelperClass.GetUserBio();
+	const [supaBio, setSupaBio] = useState("");
 
-    const [name, setName] = useState("Stephen");
-	const [schoolName, setSchoolName] = useState("Chapman");
-	const [major, setMajor] = useState("Computer Science");
-	const [minor, setMinor] = useState("Business");
-	const [gradYear, setGradYear] = useState(2022);
-	const [gitName, setGitName] = useState("mamba72");
+    // const [name, setName] = useState();
+	// const [schoolName, setSchoolName] = useState();
+	// const [major, setMajor] = useState();
+	// const [minor, setMinor] = useState();
+	// const [gradYear, setGradYear] = useState(2022);
+	// const [gitName, setGitName] = useState("mamba72");
 
 	const { supaUser } = Auth.useUser();
 	
 	const { user, setUser } = useUser();
 
-  const router = useRouter();
+  	const router = useRouter();
 
-
-  const GoToLoginPage = () => {
-		let pathName = '/login';
-		// let searchQuery = 'gitName=' + username;
-		router.push({pathname: pathName});
+	const UpdateSupaBio = async () => {
+		let newBio = await HelperClass.GetUserBio(supabase.auth.currentUser.id);
+		if(newBio)
+		{
+			console.log("New Bio: ", newBio);
+			console.log("New Bio Name: ", newBio.Name);
+			setSupaBio(newBio);
+			// setName(newBio.name);
+		}
+		
 	}
 
-  const SubmitInfo = async () => {
-	if(user["supaUser"].user == null)
-	{
+  
 
-	}
+  const SubmitInfo = async ({name,schoolName,major,minor,gradYear,gitName}) => {
 
 	  console.log("Submit Info was called");
 	  //if they already have a profile, just update their info,
@@ -50,23 +54,8 @@ export default function my_profile()
 	}//else, create a new row
 	else {
 		console.log("User Supa: ", user["supaUser"]);
-		await CreateUserBio(supabase.auth.currentUser.id,name, schoolName,major,minor,gradYear,gitName);
+		await HelperClass.CreateUserBio(supabase.auth.currentUser.id,name, schoolName,major,minor,gradYear,gitName);
 	}
-  }
-
-  const CreateUserBio = async (supaID,Name, SchoolName, Major, Minor, GradYear, githubName) => {
-	console.log("Creating User: id -> ", supaID);
-	let year = new Date(GradYear);
-
-	let { data, error } = await supabase
-		.from('BasicInfo')
-		.insert([
-		{ "id": supaID, "Name": {Name}, "SchoolName": {SchoolName}, "Major": {Major}, "Minor": {Minor}, "GradYear": year, "GitName": githubName},
-	]);
-
-	if(error)
-		console.log(error);
-
   }
 
   	const DisableGitChange = () => {
@@ -75,24 +64,21 @@ export default function my_profile()
 		  else return false;
 	  }
 
-	  const InsertSupaUser = () => {
-		if(typeof user["supaUser"] == 'undefined')
-		{
-			setUser({
-				name: user["name"],
-				supaUser: supaUser
-			});
-		}
+	//   const InsertSupaUser = () => {
+	// 	if(typeof user["supaUser"] == 'undefined')
+	// 	{
+	// 		setUser({
+	// 			name: user["name"],
+	// 			supaUser: supaUser
+	// 		});
+	// 	}
 
-		console.log("User: ", user);
-	  }
+	// 	console.log("User: ", user);
+	//   }
 
 	  useEffect(() => { 
-        console.log("User: ", user);
-		console.log("Supa User: ", supaUser);
 
-		console.log("Supabase thing: ", supabase);
-		console.log("Supabase auth currentUser id thing: ", supabase.auth.currentUser.id);
+		UpdateSupaBio();
 		
 		if(typeof user["supaUser"] == 'undefined')
 		{
@@ -102,7 +88,6 @@ export default function my_profile()
 			});
 		}
 
-		console.log("User: ", user);
   }, []);
 
 
@@ -125,21 +110,24 @@ export default function my_profile()
           <div className='profile-viewer'>
 
             <h2 className='title'>Your Profile</h2>
+
+			<ProfileInputForm handleSubmit={SubmitInfo} curVals={supaBio}/>
+
             {/* Name */}
-            <Input value={supaBio.Name} type="text" handleSubmit={setName} placeholder="Name" className="prof-input"/>
+            {/* <Input value={supaBio.Name} type="text" handleSubmit={setName} placeholder="Name" className="prof-input"/> */}
             {/* SchoolName */}
-            <Input value={supaBio.SchoolName} type="text" handleSubmit={setSchoolName} placeholder="School Name" className="prof-input"/>
+            {/* <Input value={supaBio.SchoolName} type="text" handleSubmit={setSchoolName} placeholder="School Name" className="prof-input"/> */}
             {/* Name */}
-            <Input value={supaBio.Major} type="text" handleSubmit={setMajor} placeholder="Major" className="prof-input"/>
+            {/* <Input value={supaBio.Major} type="text" handleSubmit={setMajor} placeholder="Major" className="prof-input"/> */}
             {/* Name */}
-            <Input value={supaBio.Minor} type="text" handleSubmit={setMinor} placeholder="Minor" className="prof-input"/>
+            {/* <Input value={supaBio.Minor} type="text" handleSubmit={setMinor} placeholder="Minor" className="prof-input"/> */}
             {/* Name */}
-            <Input value={supaBio.GradYear} type="number" handleSubmit={setGradYear} placeholder="Graduation Year" className="prof-input"/>
+            {/* <Input value={supaBio.GradYear} type="number" handleSubmit={setGradYear} placeholder="Graduation Year" className="prof-input"/> */}
 			{/* Name */}
-            <Input value={supaBio.GitName} type="text" handleSubmit={setGitName} placeholder="GitHub UserName" 
+            {/* <Input value={supaBio.GitName} type="text" handleSubmit={setGitName} placeholder="GitHub UserName" 
 				className="prof-input" disabledSubmit={DisableGitChange()}/>
 			
-			<button className='submit-info-button' onClick={SubmitInfo}>Done</button>
+			<button className='submit-info-button' onClick={SubmitInfo}>Done</button> */}
 			<br/>
               <button className="text-pink-300" onClick={ async () => { 
                 let { error } = await supabase.auth.signOut()

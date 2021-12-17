@@ -38,14 +38,11 @@ export default function Home() {
 
 
   useEffect(() => { 
-        console.log("User: ", user);
         
         setUser({
           name: user["name"],
           supaUser: {supaUser}
         })
-
-        console.log("User: ", user);
   }, []);
 
 
